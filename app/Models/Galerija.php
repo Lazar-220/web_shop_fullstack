@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Galerija extends Model
 {
+    protected $table = 'galerija';
     protected $fillable = [
         'naziv',
         'adresa',

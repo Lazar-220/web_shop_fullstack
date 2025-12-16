@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Porudzbina extends Model
 {
+    protected $table='porudzbine';
     protected $fillable = [
         'user_id',
         'datum',
@@ -17,12 +18,13 @@ class Porudzbina extends Model
         'adresa',
         'postanski_broj',
         'telefon',
-        'status'
+        'poslato'
     ];
 
     protected $casts = [
         'ukupna_cena'=>'decimal:2',
-        'datum'=>'date'
+        'datum'=>'date',
+        'poslato'=>'boolean'
     ];
 
     public function korisnik(){

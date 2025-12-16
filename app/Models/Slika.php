@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Slika extends Model
 {
+    protected $table='slike';
     protected $fillable = [
         'galerija_id',
         'putanja_fotografije',

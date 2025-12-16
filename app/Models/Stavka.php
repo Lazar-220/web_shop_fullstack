@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Stavka extends Model
 {
+    protected $table='stavke';
     protected $fillable = [
         'porudzbina_id',
         'slika_id',
