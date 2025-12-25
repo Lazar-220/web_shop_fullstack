@@ -32,10 +32,12 @@ class RegisterController extends Controller
         $verificationUrl = URL::temporarySignedRoute(
             'verification.verify',
             now()->addMinutes(60),
-            ['id' => $user->id]
+            [
+            'id' => $user->id
+            ]
         );  //"pozivamo" rutu sa imenom verification.verify iz api.php, koju smo prethodno napravili,i dodeljujemo id i kad istice.
             // Mi je koristimo da napravimo url.
-        //http://localhost/email/verify/5?expires=1703448600&signature=abc123xyz //laravel samo doda ovo ?expires=1703448600&signature=abc123xyz
+        //http://localhost/verify/email/5?expires=1703448600&signature=abc123xyz //laravel samo doda ovo ?expires=1703448600&signature=abc123xyz
 
 
         Mail::to($user->email)->send(           //usera sa proverenim podacima i kreirani url saljemo kao parametre prilikom poziva VerifyEmail

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Authentication\EmailVerificationController;
+use App\Http\Controllers\Authentication\ForgotPasswordController;
 use App\Http\Controllers\Authentication\LoginController;
 use App\Http\Controllers\Authentication\LogoutController;
 use App\Http\Controllers\Authentication\RegisterController;
@@ -15,10 +16,24 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::post('/verify/email/{id}',[EmailVerificationController::class],'verify')
-->name('verification.verify');
+Route::post('/password/forgot', [ForgotPasswordController::class, 'sendResetLink']);
+
+Route::get('/password/reset', [ForgotPasswordController::class, 'showResetForm'])
+    ->name('password.reset.form');
+
+Route::post('/password/reset', [ForgotPasswordController::class, 'resetPassword'])
+    ->name('password.reset.submit');
+
+
+
+
+
 
 Route::post('/register', [RegisterController::class, 'register']);
+
+Route::get('/verify/email/{id}',[EmailVerificationController::class,'verify'])
+->name('verification.verify');
+
 Route::post('/login', [LoginController::class, 'login']);
 
 
