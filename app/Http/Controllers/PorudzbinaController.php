@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\PorudzbinaResource;
 use App\Models\Porudzbina;
+use App\Models\Slika;
 use App\Models\Stavka;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -19,6 +21,21 @@ class PorudzbinaController extends Controller
     {
         $porudzbine=Porudzbina::with(['user','stavke.slika'])->get();
         return response()->json(PorudzbinaResource::collection($porudzbine),200);
+    }
+
+    
+    public function allOrdersPaginated(Request $request)
+    {
+        $perPage=$request->get('per_page',10);
+
+        $query=Porudzbina::with(['user','stavke.slika']);
+
+        $query->orderBy('poslato','asc') //glavni kriterijum za filtriranje
+              ->orderBy('datum','asc'); //prvo 0 pa 1 tj. false pa true
+
+        $paginator=$query->paginate($perPage);
+
+        return PorudzbinaResource::collection($paginator);
     }
 
     /**
@@ -46,7 +63,7 @@ class PorudzbinaController extends Controller
 
             'stavke'=>['required','array','min:1'],
             'stavke.*.slika_id'=>['required','integer','exists:slike,id'],
-            'stavke.*.cena'=>['required','numeric','min:0'],
+            // 'stavke.*.cena'=>['required','numeric','min:0'],  //cena se izvlaci iz baze, dodati popust 
             'stavke.*.kolicina'=>['required','integer','min:1']
         ]);
 
@@ -59,6 +76,9 @@ class PorudzbinaController extends Controller
 
         $data=$validator->validated();
 
+        $slike=Slika::whereIn('id',collect($data['stavke'])->pluck('slika_id'))  //SELECT * FROM slike WHERE id IN (5, 12);
+                                   ->get()->keyBy('id');                         //dobijamo mapu po id tj. asoc niz ciji su kljucevi id slika a vrednosti objekti slike
+
         DB::beginTransaction();
 
         try {
@@ -66,8 +86,14 @@ class PorudzbinaController extends Controller
             $ukupnaCena=0;
 
             foreach($data['stavke'] as $stavka){
-                
-                $ukupnaCena+=$stavka['cena']*$stavka['kolicina'];
+
+                $slika=$slike[$stavka['slika_id']];
+
+                if(!$slika->dostupna){
+                    throw new \Exception("Slika '{$slika->naziv}' nije dostupna.");
+                }
+
+                $ukupnaCena+=$slika->cena*$stavka['kolicina'];
             }
 
             $porudzbina=Porudzbina::create([
@@ -84,14 +110,16 @@ class PorudzbinaController extends Controller
             ]);
 
             foreach($data['stavke'] as $index => $stavka){
+
+                $slika=$slike[$stavka['slika_id']];
+
                 Stavka::create([
                     'porudzbina_id'=>$porudzbina->id,
                     'slika_id'=>$stavka['slika_id'],
                     'rb'=>$index+1,
-                    'cena'=>$stavka['cena'],
+                    'cena'=>$slika->cena,
                     'kolicina'=>$stavka['kolicina']
                 ]);
-                $ukupnaCena+=$stavka['cena']*$stavka['kolicina'];
             }
 
             DB::commit();
@@ -118,7 +146,7 @@ class PorudzbinaController extends Controller
      */
     public function show($id)
     {
-        $porudzbina=Porudzbina::with(['user','stavke'])->findOrFail($id);
+        $porudzbina=Porudzbina::with(['user','stavke.slika'])->findOrFail($id);
         return response()->json(new PorudzbinaResource($porudzbina),200);
     }
 
@@ -228,6 +256,17 @@ class PorudzbinaController extends Controller
     public function vratiSvePorudzbineKupca($userId){
         $user=User::findOrFail($userId);
         $porudzbine=$user->porudzbine()->with(['stavke.slika'])->get();
+        return response()->json(PorudzbinaResource::collection($porudzbine),200);
+    }
+
+    public function moje(Request $request){
+
+        $userId=$request->user()->id;
+
+        $porudzbine=Porudzbina::with('stavke.slika')->where('user_id',$userId)
+        ->orderByDesc('datum')
+        ->get();
+
         return response()->json(PorudzbinaResource::collection($porudzbine),200);
     }
 }

@@ -18,12 +18,88 @@ class SlikaController extends Controller
     {
         $slike=Slika::with(['galerija','tehnike'])->get();
         return response()->json(SlikaResource::collection($slike),200);
-
-        // $perPage = (int) $request->get('per_page', 10);
-        // $slike = Slika::with(['galerija','tehnike'])
-        //             ->paginate($perPage); // automatski čita ?page=#
-        // return SlikaResource::collection($slike);
     }
+
+    public function allPicturesPaginatedFiltered(Request $request){
+
+        $request->validate([           //isto kao $validator=Validator::make() + if($validator->fails())
+            'per_page'   => 'sometimes|integer|min:1|max:20',
+            'dostupna'   => 'sometimes|boolean',
+            'cena_min'   => 'sometimes|numeric|min:0',
+            'cena_max'   => 'sometimes|numeric|min:0',
+            'visina_cm'  => 'sometimes|integer|min:1',
+            'sirina_cm'  => 'sometimes|integer|min:1',
+            'sort_cena'  => 'sometimes|in:asc,desc',
+            'tehnike'    => 'sometimes|array|min:1',
+            'tehnike.*'  => 'integer|exists:tehnike,id',
+        ]);
+        
+        $perPage=$request->get('per_page',12);
+
+        $query=Slika::with(['tehnike']);
+        
+        if($request->filled('dostupna')){
+            $query->where('dostupna',$request->get('dostupna')); //isto kao $query=$query->where...
+        }
+        if($request->filled('cena_min')){
+            $query->where('cena','>=',$request->get('cena_min'));
+        }
+        if($request->filled('cena_max')){
+            $query->where('cena','<=',$request->get('cena_max'));
+        }
+        if($request->filled('visina_cm')){
+            $query->where('visina_cm',$request->get('visina_cm'));
+        }
+        if($request->filled('sirina_cm')){
+            $query->where('sirina_cm',$request->get('sirina_cm'));
+        }
+
+
+        if ($request->filled('tehnike')) {         //*ispod ove metode je ekvivalentan sql upit
+           
+            $tehnike = $request->get('tehnike');
+
+            $query->whereHas('tehnike', function ($q) use ($tehnike) {
+                $q->whereIn('tehnike.id', $tehnike);
+            });
+
+            // foreach ($tehnike as $tehnikaId) {                                //ovo je logika ako zelimo da slika mora da ima sve prosledjene tehnike
+            //     $query->whereHas('tehnike', function ($q) use ($tehnikaId) {
+            //         $q->where('tehnike.id', $tehnikaId);
+            //     });
+            // }
+        }
+
+
+        if ($request->filled('sort_cena') &&
+            in_array($request->get('sort_cena'), ['asc', 'desc'])) {
+
+                $query->orderBy('cena', $request->get('sort_cena'));
+        }
+
+        $paginator=$query->paginate($perPage);
+
+        return SlikaResource::collection($paginator);
+    }
+
+    /*
+        SELECT DISTINCT slike.*
+        FROM slike
+        AND EXISTS (
+        SELECT 1
+        FROM tehnike
+        INNER JOIN slika_tehnika
+            ON tehnike.id = slika_tehnika.tehnika_id
+            WHERE slika_tehnika.slika_id = slike.id
+            AND tehnike.id IN (1, 3))
+
+            ili 
+
+        SELECT DISTINCT slike.*
+        FROM slike
+        JOIN slika_tehnika ON slike.id = slika_tehnika.slika_id
+        WHERE slika_tehnika.tehnika_id IN (1,3);
+    */
 
     /**
      * Show the form for creating a new resource.

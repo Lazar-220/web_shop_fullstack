@@ -40,6 +40,8 @@ Route::post('/login', [LoginController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function(){
     
     Route::post('/logout',[LogoutController::class,'logout']);
+
+    Route::get('/porudzbine/moje',[PorudzbinaController::class,'moje']);
 });
 
 Route::get('/email/verify/{id}', [EmailVerificationController::class, 'verify'])
@@ -69,6 +71,7 @@ Route::get('/slike/{id}',[SlikaController::class,'show']);
 Route::post('/slike',[SlikaController::class,'store']);
 Route::delete('/slike/{id}',[SlikaController::class,'destroy']);
 Route::put('/slike/{id}',[SlikaController::class,'update']);
+Route::get('/slike-pag',[SlikaController::class,'allPicturesPaginatedFiltered']);
 
 
 //kreiranje kupac, gost; gledanje svojih kupac; gledanje svih, izmena i brisanje admin;
@@ -77,4 +80,6 @@ Route::get('/porudzbine/{id}',[PorudzbinaController::class,'show']);
 Route::post('/porudzbine',[PorudzbinaController::class,'store']);
 Route::delete('/porudzbine/{id}',[PorudzbinaController::class,'destroy']);
 Route::put('/porudzbine/{id}',[PorudzbinaController::class,'update']);
-Route::get('/porudzbine/kupac/{userId}',[PorudzbinaController::class,'vratiSvePorudzbineKupca']);
+Route::get('/porudzbine/kupac/{userId}',[PorudzbinaController::class,'vratiSvePorudzbineKupca']);//ovo brises?
+Route::get('/porudzbine-pag',[PorudzbinaController::class,'allOrdersPaginated']);
+
