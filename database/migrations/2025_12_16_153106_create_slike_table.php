@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('slike', function (Blueprint $table) {
             $table->id();
             $table->foreignId('galerija_id')->constrained('galerija')->nullOnDelete()->nullable();
-            $table->string('putanja_fotografije');
+            $table->string('putanja_fotografije');//nullable()
             $table->decimal('cena',15,2);
             $table->string('naziv',50);
             $table->string('tehnika',50);

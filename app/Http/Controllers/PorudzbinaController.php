@@ -12,6 +12,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
+use function Pest\Laravel\options;
+
 class PorudzbinaController extends Controller
 {
     /**
@@ -269,4 +271,76 @@ class PorudzbinaController extends Controller
 
         return response()->json(PorudzbinaResource::collection($porudzbine),200);
     }
+
+
+    public function exportCsv(Request $request) //dodaj popust kao kolonu
+    {
+        // (opciono) ako kasnije dodaš role
+        // abort_unless($request->user()->is_admin, 403);
+
+        $porudzbine = Porudzbina::with([
+            'user',
+            'stavke.slika'
+        ])
+        ->orderBy('poslato', 'asc')
+        ->orderBy('datum', 'asc')
+        ->get();
+
+        $columns = [
+            'ID porudzbine',
+            'Datum',
+            'Kupac',
+            'Email',
+            'Grad',
+            'Adresa',
+            'Telefon',
+            'Ukupna cena',
+            'Poslato',
+            'Stavke'
+        ];
+
+        $callback = function () use ($porudzbine, $columns) {
+
+            $file = fopen('php://output', 'w');     //stream, kako ne bismo cuvali u memoriji fajl nego ga direktno slali u body od response
+            //php://output JESTE: specijalni PHP stream, kanal ka HTTP response telu, direktna veza ka browseru
+
+            // UTF-8 BOM (da Excel pravilno cita čćšđž)
+            fprintf($file, chr(0xEF).chr(0xBB).chr(0xBF));
+
+            // header
+            fputcsv($file, $columns, ';');
+
+            foreach ($porudzbine as $p) {
+
+                // Stavke u jednom polju
+                $stavke = $p->stavke->map(function ($stavka) {  //moze i arrow: $stavke = $p->stavke->map(fn ($stavka) => $stavka->slika->naziv . " ({$stavka->cena} RSD)")->join(', ');
+                    return $stavka->slika->naziv . " ({$stavka->cena} RSD)"; // isto moze: $stavka->slika->naziv . ' (' . $stavka->cena . ' rsd)' //napomena: ovo $stavka->slika->naziv se ne moze interpolirati jer je lancano (ima 2+ strelice) i uslov je takolje da se koristi " a ne ' 
+                })->join(', ');
+
+                fputcsv($file, [
+                    $p->id,
+                    $p->datum ? $p->datum->format('Y-m-d') : null,
+                    trim($p->ime . ' ' . $p->prezime),
+                    optional($p->user)->email,
+                    $p->grad,
+                    $p->adresa,
+                    $p->telefon,
+                    $p->ukupna_cena,
+                    $p->poslato ? 'DA' : 'NE',
+                    $stavke
+                ], ';');
+            }
+
+            fclose($file);
+        };
+
+        $fileName = 'porudzbine_' . now()->format('Ymd_His') . '.csv';
+
+        return response()->stream($callback, 200, [
+            'Content-Type' => 'text/csv; charset=UTF-8',
+            'Content-Disposition' => 'attachment; filename="' . $fileName . '"',
+        ]);
+    }
+
 }
+

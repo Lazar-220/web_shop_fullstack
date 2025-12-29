@@ -70,16 +70,21 @@ Route::get('/slike',[SlikaController::class,'index']);
 Route::get('/slike/{id}',[SlikaController::class,'show']);
 Route::post('/slike',[SlikaController::class,'store']);
 Route::delete('/slike/{id}',[SlikaController::class,'destroy']);
-Route::put('/slike/{id}',[SlikaController::class,'update']);
-Route::get('/slike-pag',[SlikaController::class,'allPicturesPaginatedFiltered']);
+// Route::put('/slike/{id}',[SlikaController::class,'update']);
+Route::get('/slike-pag',[SlikaController::class,'allPicturesPaginatedFiltered']); //ako dodas ->whereNumber('id'); mozes staviti i /slike/pag i ne mora ici ispred ove linije (ne dolazi do {id}=pag...)
+Route::post('/slike/{id}',[SlikaController::class,'update']); // + _method = PUT kao param 
+//^ovde smo stavili POST i simuliramo put tako sto prosledimo _method = PUT kao parametar u form-data
+//to je neophodno jer PUT ne prepoznaje podatke iz form-data nego samo raw
+//koristimo form-data kao bismo omogucili pravilno izvrsenje upload-a fotografije
+
 
 
 //kreiranje kupac, gost; gledanje svojih kupac; gledanje svih, izmena i brisanje admin;
 Route::get('/porudzbine',[PorudzbinaController::class,'index']);
-Route::get('/porudzbine/{id}',[PorudzbinaController::class,'show']);
+Route::get('/porudzbine/{id}',[PorudzbinaController::class,'show']); //ako dodas ->whereNumber('id'); mozes staviti i /porudzbine/pag i ne mora ici ispred ove linije (ne dolazi do {id}=pag...)
 Route::post('/porudzbine',[PorudzbinaController::class,'store']);
 Route::delete('/porudzbine/{id}',[PorudzbinaController::class,'destroy']);
 Route::put('/porudzbine/{id}',[PorudzbinaController::class,'update']);
 Route::get('/porudzbine/kupac/{userId}',[PorudzbinaController::class,'vratiSvePorudzbineKupca']);//ovo brises?
 Route::get('/porudzbine-pag',[PorudzbinaController::class,'allOrdersPaginated']);
-
+Route::get('/porudzbine/export/csv',[PorudzbinaController::class,'exportCsv']);    //prebaci u middleware

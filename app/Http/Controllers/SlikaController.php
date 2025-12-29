@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 use App\Rules\PostojiPutanjaSlike;
+use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpKernel\HttpCache\Store;
 
 class SlikaController extends Controller
 {
@@ -116,7 +118,8 @@ class SlikaController extends Controller
     {
         $validator=Validator::make($request->all(),[
             'galerija_id'=>['required','integer','exists:galerija,id'],
-            'putanja_fotografije'=>['required','string',new PostojiPutanjaSlike()],
+            // 'putanja_fotografije'=>['nullable','string',new PostojiPutanjaSlike()],
+            'putanja_fotografije'=>['nullable','image','mimes:jpg,png,jpeg','max:2048'],
             'cena'=>['required','numeric','min:0'],
             'naziv'=>['required','string','max:50'],
             'visina_cm'=>['required','numeric','min:0'],
@@ -133,6 +136,11 @@ class SlikaController extends Controller
             ],422);
         }
         $data=$validator->validated();
+
+        if($request->hasFile('putanja_fotografije')){
+            $path=$request->file('putanja_fotografije')->store('fotografije','public');
+            $data['putanja_fotografije']=$path;
+        }
 
         $tehnike=$data['tehnike'];
 
@@ -172,7 +180,7 @@ class SlikaController extends Controller
         $slika=Slika::findOrFail($id);
         $validator=Validator::make($request->all(),[
             'galerija_id'=>['sometimes','integer','exists:galerija,id'],
-            'putanja_fotografije'=>['sometimes','string',new PostojiPutanjaSlike()],
+            'putanja_fotografije'=>['nullable','image','mimes:jpg,png,jpeg','max:2048'],
             'cena'=>['sometimes','numeric','min:0'],
             'naziv'=>['sometimes','string','max:50'],
             'visina_cm'=>['sometimes','numeric','min:0'],
@@ -189,8 +197,18 @@ class SlikaController extends Controller
             ],422);
         }
         $data=$validator->validated();
+
+        if($request->hasFile('putanja_fotografije')){
+
+            if($slika->putanja_fotografije){
+                Storage::disk('public')->delete($slika->putanja_fotografije);
+            }
+
+            $path=$request->file('putanja_fotografije')->store('fotografije','public');
+            $data['putanja_fotografije']=$path;
+        }
         
-        if(empty($data)){
+        if(empty($data) && !$request->hasFile('putanja_fotografije')){
             return response()->json([
                 'message' => 'Nema podataka za izmenu.'
             ], 400);
@@ -217,6 +235,10 @@ class SlikaController extends Controller
     public function destroy($id)
     {
         $slika=Slika::findOrFail($id);
+
+        // if($slika->putanja_fotografije){      //ovo je ako zelimo da se fotografija obrise prilikom brisanja slike
+        //     Storage::disk('public')->delete($slika->putanja_fotografije);
+        // }
 
         $slika->tehnike()->detach(); //brise iz pivota veze sa ovom slikom i bez cascade
         $slika->delete();
