@@ -11,6 +11,7 @@ class Porudzbina extends Model
     protected $table='porudzbine';
     protected $fillable = [
         'user_id',
+        'popust_id',
         'datum',
         'ukupna_cena',
         'ime',
@@ -28,6 +29,12 @@ class Porudzbina extends Model
         'datum'=>'date',
         'poslato'=>'boolean'
     ];
+
+    
+
+    public function popust(){
+        return $this->belongsTo(Popust::class,'popust_id');
+    }
 
     public function user(){
         return $this->belongsTo(User::class,'user_id');
