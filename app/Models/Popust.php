@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Popust extends Model
 {
     use HasFactory;
-    protected $table='procenti';
+    protected $table='popusti';
     protected $fillable = [
         'aktivan',
         'tip',

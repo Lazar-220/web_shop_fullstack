@@ -18,7 +18,7 @@ return new class extends Migration
             ->after('user_id');
             $table->decimal('konacna_cena',15,2)->unsigned()->after('ukupna_cena');
             $table->tinyInteger('procenat_popusta_ss')->unsigned()->after('poslato');
-            $table->string('tip_popusta_ss',50)->after('procenat_popusta_ss');
+            $table->string('tip_popusta_ss',50)->after('procenat_popusta_ss');//nullable()
         });
     }
 

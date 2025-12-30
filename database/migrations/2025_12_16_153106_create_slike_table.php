@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id();
             $table->foreignId('galerija_id')->constrained('galerija')->nullOnDelete()->nullable();
             $table->string('putanja_fotografije');//nullable()
-            $table->decimal('cena',15,2);
+            $table->decimal('cena',15,2);//->unsigned()
             $table->string('naziv',50);
             $table->string('tehnika',50);
-            $table->decimal('visina_cm',15,2);
-            $table->decimal('sirina_cm',15,2);//integer stavi
+            $table->decimal('visina_cm',15,2);//->unsigned()
+            $table->decimal('sirina_cm',15,2);//tinyInteger ->unsigned() stavi
             $table->boolean('dostupna')->default(true);
             $table->timestamps();
         });

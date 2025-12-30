@@ -14,6 +14,7 @@ class Porudzbina extends Model
         'popust_id',
         'datum',
         'ukupna_cena',
+        'konacna_cena',
         'ime',
         'prezime',
         'drzava',
@@ -21,16 +22,19 @@ class Porudzbina extends Model
         'adresa',
         'postanski_broj',
         'telefon',
-        'poslato'
+        'poslato',
+        'procenat_popusta_ss',
+        'tip_popusta_ss'
     ];
 
     protected $casts = [
         'ukupna_cena'=>'decimal:2',
+        'konacna_cena'=>'decimal:2',
         'datum'=>'date',
         'poslato'=>'boolean'
     ];
 
-    
+
 
     public function popust(){
         return $this->belongsTo(Popust::class,'popust_id');

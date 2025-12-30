@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use App\Models\Galerija;
+use App\Models\Popust;
 use App\Models\Porudzbina;
 use App\Models\Slika;
 use App\Models\Tehnika;
@@ -26,6 +27,7 @@ class DatabaseSeeder extends Seeder
         DB::statement('SET FOREIGN_KEY_CHECKS=0;'); //ova linija je da se iskljuci provera FK
         DB::table('slika_tehnika')->truncate();
         User::truncate();
+        Popust::truncate();
         Galerija::truncate();
         Porudzbina::truncate();
         Stavka::truncate();
@@ -34,6 +36,8 @@ class DatabaseSeeder extends Seeder
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         User::factory(10)->create();
+
+        $popusti=Popust::factory(10)->create();
 
         Galerija::factory()->create();
 
@@ -49,9 +53,13 @@ class DatabaseSeeder extends Seeder
         // public function tehnike(){
         //     return $this->belongsToMany(Tehnika::class,'slika_tehnika','slika_id','tehnika_id');
         // }
-        $slike=Slika::all();
+
+        // $slike=Slika::all();
+        
         $porudzbine=Porudzbina::factory(20)->create();
         foreach($porudzbine as $porudzbina){
+
+            $popust=$popusti->find($porudzbina->popust_id);
 
             $brojStavki=rand(1,5);
             $ukupno=0;
@@ -69,8 +77,12 @@ class DatabaseSeeder extends Seeder
                 $ukupno+=$stavka->cena*$stavka->kolicina;
             }
 
+            $konacnaCena=$ukupno*(1-($popust->procenat/100));
+
             $porudzbina->update([
-                'ukupna_cena'=>$ukupno
+                'ukupna_cena'=>$ukupno,
+                'konacna_cena'=>$konacnaCena,
+                'procenat_popusta_ss'=>$popust->procenat
             ]);
         }
 

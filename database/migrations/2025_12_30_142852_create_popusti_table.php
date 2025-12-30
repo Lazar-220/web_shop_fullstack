@@ -16,10 +16,10 @@ return new class extends Migration
             $table->boolean('aktivan')->default(true);
             $table->string('tip',50);
             $table->integer('procenat')->unsigned();
-            $table->tinyInteger('danOd')->unsigned();;
-            $table->tinyInteger('danDo')->unsigned();;
-            $table->tinyInteger('mesecOd')->unsigned();;
-            $table->tinyInteger('mesecDo')->unsigned();;
+            $table->tinyInteger('danOd')->unsigned();
+            $table->tinyInteger('mesecOd')->unsigned();
+            $table->tinyInteger('danDo')->unsigned();
+            $table->tinyInteger('mesecDo')->unsigned();
             $table->timestamps();
         });
     }
