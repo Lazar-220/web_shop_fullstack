@@ -29,7 +29,7 @@ class LoginController extends Controller
             ], 401);
         }
 
-        $user = Auth::user();
+        $user = Auth::user();  //isto kao $user=$request->user();
 
         if ($user->email_verified_at==null) {
             return response()->json([

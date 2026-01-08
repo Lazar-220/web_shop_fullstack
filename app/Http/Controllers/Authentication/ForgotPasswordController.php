@@ -74,8 +74,8 @@ class ForgotPasswordController extends Controller
         );
         //usera sa proverenim podacima i kreirani url saljemo kao parametre prilikom poziva ResetPasswordMail
         //u ResetPasswordMail smo morali samo da kreiramo public User-a i url i da ih inicijalizujemo u konstruktoru, naslov mejla eventualno izmenimo, i pomocu markdown za telo mejla pozivamo emails.password-reset (struktuiran mejl u blade/php-u)
-        //klikom korisnika na verifikuj mejl dugme u mailtrap-u ruta(koju smo prosledili i stranica na koju dolazimo klikom) 
-        //->poziva Controller za verifikaciju i preko showResetForm metode se otvara blade/php forma za unos nove lozinke i nakon klika na 'submit' se prebacujemo na rutu koja poziva metodu resetPassword iz istog controller-a i ona proverava novu lozinku
+        //klikom korisnika na verifikuj mejl(resetuj lozinku) dugme u mailtrap-u ruta(koju smo prosledili i stranica na koju dolazimo klikom) 
+        //->poziva ForgotPasswordController i preko showResetForm metode se otvara blade/php forma za unos nove lozinke i nakon klika na 'submit' se prebacujemo na rutu koja poziva metodu resetPassword iz istog controller-a i ona proverava novu lozinku
       
         return response()->json([
             'message' => 'Ako nalog postoji poslali smo instrukcije za reset lozinke.'

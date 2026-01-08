@@ -19,7 +19,7 @@ class RegisterController extends Controller
             'prezime'=>'required|string|max:50',
             'email'=>'required|string|email|max:255|unique:users,email',
             'password'=>'required|string|min:6|confirmed'//password_confirmation
-        ]);
+        ]);         //dodaj rule za password da mora imati odredjenu vrstu karaktera
         if($validator->fails()){
             return response()->json([
                 'message'=>'Validacija nije prosla.',
