@@ -1,0 +1,137 @@
+
+/* custom.css */
+
+/* kožna / bež */
+.navbar {
+  background-color: rgb(177, 137, 145); 
+}
+
+
+.navbar-nav .nav-link {
+  color: #41161f;
+  font-weight: 600;
+}
+
+.navbar-nav .nav-link:hover{
+  color: #e3c725;
+}
+
+.navbar-nav .nav-link.active{
+    color: #e3c725 !important;
+}
+
+
+
+
+
+
+.cart-fixed {
+  position: absolute;       /* BITNO */
+  right: 0;                 /* skroz uz ivicu */
+  transform: translateY(-50%);
+  margin-right: 1.8rem;       /* malo razmaka od ivice */
+
+  color: #e3c725;
+  cursor: pointer;
+}
+
+
+
+
+
+
+.navbar-toggler:focus,
+.navbar-toggler:active,
+.navbar-toggler:focus-visible {
+  outline: none;
+  box-shadow: none !important;
+  color: #41161f;
+}
+
+.navbar-toggler{
+    margin-left: -0.4rem;
+}
+
+
+
+.logo{
+    font-size: 4rem;
+}
+
+.dany{
+    font-size: 2.4rem;
+    color: #e3c725;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.art{
+    font-size: 2.4rem;
+    color: #41161f;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+
+
+
+.custom-navbar .navbar-brand {
+  padding: 0;              /* ključno */
+  margin-left: 0.5rem;      
+  line-height: 1;          /* da ne raste visina */
+}
+
+.custom-navbar .korpa-kontejner{
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* KRUŽIĆ */
+.cart-badge {
+  position: absolute;   /* preduslov je position:!static -> top,right su pomeraji u odnosu na elementovu trenutnu poziciju bez da diraju ostale elemente, margin-top je pomerj u odnosu na marginu i gura ostale elemente */
+  top: -0.45rem;
+  right: -0.5rem;
+
+  min-width: 1.1rem;
+  height: 1.1rem;
+
+  background-color: #41161f; /* bordo – uklopi sa brendom */
+  color: rgb(225, 213, 216); 
+
+  font-size: 0.7rem;
+  font-weight: 600;
+
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  line-height: 1;
+  padding: 0 0.25rem;
+}
+
+
+
+
+
+
+.header{
+  background: #41161f;
+  color: rgb(225, 213, 216); 
+  font-size: 90%;
+}
+
+.header .header-link:hover{
+  color: #e3c725;
+}
+
