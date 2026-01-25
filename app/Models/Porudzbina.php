@@ -9,7 +9,7 @@ class Porudzbina extends Model
 {
     use HasFactory;
     protected $table='porudzbine';
-    protected $fillable = [
+    protected $fillable = [         // dodaj email kao obavezan podatak i logiku da se verifikuje mejl prilikom porucivanja? I mozda da se ime, prezime i email sami unose prilikom porucivanja?
         'user_id',
         'popust_id',
         'datum',

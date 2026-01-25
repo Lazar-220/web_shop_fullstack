@@ -24,7 +24,8 @@ class SlikaResource extends JsonResource
             'visina_cm'=>(int)$this->visina_cm,
             'sirina_cm'=>(int)$this->sirina_cm,
             'dostupna'=>(boolean)$this->dostupna,
-            'tehnike'=>TehnikaResource::collection($this->whenLoaded('tehnike'))
+            'tehnike'=>TehnikaResource::collection($this->whenLoaded('tehnike')),
+            'created_at' => $this->created_at,
         ];
     }
 }

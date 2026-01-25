@@ -81,7 +81,7 @@ Route::get('/slike-pag',[SlikaController::class,'allPicturesPaginatedFiltered'])
 //^ovde smo stavili POST i simuliramo put tako sto prosledimo _method = PUT kao parametar u form-data
 //to je neophodno jer PUT ne prepoznaje podatke iz form-data nego samo raw
 //koristimo form-data kao bismo omogucili pravilno izvrsenje upload-a fotografije
-
+Route::get('/slike-najnovije',[SlikaController::class,'latest']);
 
 
 //kreiranje kupac, gost; gledanje svojih kupac; gledanje svih, izmena i brisanje admin;

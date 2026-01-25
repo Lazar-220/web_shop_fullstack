@@ -22,6 +22,16 @@ class SlikaController extends Controller
         return response()->json(SlikaResource::collection($slike),200);
     }
 
+    public function latest(){
+        $slike=Slika::with(['galerija','tehnike'])
+                            ->where('dostupna',true)
+                            ->orderBy('created_at','desc')
+                            ->limit(3)
+                            ->get();
+        return response()->json(SlikaResource::collection($slike),200);
+
+    }
+
     public function allPicturesPaginatedFiltered(Request $request){
 
         $request->validate([           //isto kao $validator=Validator::make() + if($validator->fails())
