@@ -96,16 +96,26 @@ class PorudzbinaController extends Controller
             $datumOd = Carbon::create($today->year, $p->mesecOd, $p->danOd);
             $datumDo = Carbon::create($today->year, $p->mesecDo, $p->danDo);
 
-            // ako datumDo je manji od datumOd, znači da prelazi u sledeću godinu
+            // ako datumDo je manji od datumOd:
             if ($datumDo->lt($datumOd)) {
-                $datumDo->addYear();
+                
+                //SLUČAJ A: Danas je kraj godine (npr. 28. Decembar 2025)
+                //// Opseg: 25.12.2025 -> 05.01.2026
+                $datumDoA=$datumDo->copy()->addYear();
+                if($today->between($datumOd,$datumDoA)){
+                    return true;
+                }
+
+                // SLUČAJ B: Danas je početak godine (npr. 2. Januar 2025)
+                //// Opseg: 25.12.2024 -> 05.01.2025 
+                $datumOdB=$datumOd->copy()->subYear();
+                if($today->between($datumOdB,$datumDo)){
+                    return true;
+                }
+
+                return false;
             }
 
-            $trajanje = $datumOd->diffInDays($datumDo) + 1;
-
-            if ($trajanje > 31) {
-                return false; // ovaj popust je nevalidan
-            }
 
             // proveravamo da li današnji datum spada u period
             return $today->between($datumOd, $datumDo);
@@ -165,6 +175,8 @@ class PorudzbinaController extends Controller
             foreach($data['stavke'] as $index => $stavka){
 
                 $slika=$slike[$stavka['slika_id']];
+
+                $slika->update(['dostupna'=>false]);
 
                 Stavka::create([
                     'porudzbina_id'=>$porudzbina->id,
@@ -254,14 +266,25 @@ class PorudzbinaController extends Controller
 
             // ako datumDo je manji od datumOd, znači da prelazi u sledeću godinu
             if ($datumDo->lt($datumOd)) {
-                $datumDo->addYear();
+                
+                //SLUČAJ A: Danas je kraj godine (npr. 28. Decembar 2025)
+                //// Opseg: 25.12.2025 -> 05.01.2026
+                $datumDoA=$datumDo->copy()->addYear();
+                if($today->between($datumOd,$datumDoA)){
+                    return true;
+                }
+
+                // SLUČAJ B: Danas je početak godine (npr. 2. Januar 2025)
+                //// Opseg: 25.12.2024 -> 05.01.2025 
+                $datumOdB=$datumOd->copy()->subYear();
+                if($today->between($datumOdB,$datumDo)){
+                    return true;
+                }
+
+                return false;
             }
 
-            $trajanje = $datumOd->diffInDays($datumDo) + 1;
-
-            if ($trajanje > 31) {
-                return false; // ovaj popust je nevalidan
-            }
+            
             
             // proveravamo da li današnji datum spada u period
             return $today->between($datumOd, $datumDo);

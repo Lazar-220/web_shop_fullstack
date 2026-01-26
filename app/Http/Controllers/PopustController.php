@@ -19,6 +19,11 @@ class PopustController extends Controller
         return response()->json(PopustResource::collection(Popust::all()),200);
     }
 
+    public function aktivniPopusti()
+    {
+        return response()->json(PopustResource::collection(Popust::where('aktivan',true)->get()),200);
+    }
+
     /**
      * Show the form for creating a new resource.
      */

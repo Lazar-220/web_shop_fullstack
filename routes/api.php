@@ -131,5 +131,7 @@ Route::middleware(['auth:sanctum','role:admin,slikar'])->group(function(){
     Route::post('/popusti',[PopustController::class,'store']);
     Route::delete('/popusti/{id}',[PopustController::class,'destroy']);
     Route::put('/popusti/{id}',[PopustController::class,'update']);
+    // Route::get('/popusti-aktivni',[PopustController::class,'aktivniPopusti']);
 
 });
+Route::get('/popusti-aktivni',[PopustController::class,'aktivniPopusti']);

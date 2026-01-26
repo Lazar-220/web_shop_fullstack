@@ -24,7 +24,7 @@ class SlikaController extends Controller
 
     public function latest(){
         $slike=Slika::with(['galerija','tehnike'])
-                            ->where('dostupna',true)
+                            ->where('dostupna',true) //kad budes imao dovoljno slika u bazi otkomentarisaces ovo
                             ->orderBy('created_at','desc')
                             ->limit(3)
                             ->get();

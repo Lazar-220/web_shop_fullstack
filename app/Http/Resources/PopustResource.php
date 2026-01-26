@@ -18,12 +18,12 @@ class PopustResource extends JsonResource
             'id'=>$this->id,
             'aktivan'=>(boolean)$this->aktivan,
             'tip'=>$this->tip,
-            'procenata'=>(int)$this->procenat,
-            'traje_tokom'=>"{$this->danOd}.{$this->mesecOd}. - {$this->danDo}.{$this->mesecDo}."
-            // 'danOd'=>(int)$this->danOd,
-            // 'mesecOd'=>(int)$this->mesecOd,
-            // 'danDo'=>(int)$this->danDo,
-            // 'mesecDo'=>(int)$this->mesecDo
+            'procenat'=>(int)$this->procenat,
+            // 'traje_tokom'=>"{$this->danOd}.{$this->mesecOd}. - {$this->danDo}.{$this->mesecDo}."
+            'danOd'=>(int)$this->danOd,
+            'mesecOd'=>(int)$this->mesecOd,
+            'danDo'=>(int)$this->danDo,
+            'mesecDo'=>(int)$this->mesecDo
         ];
     }   
 }
