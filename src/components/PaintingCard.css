@@ -11,7 +11,7 @@
 }
 
 .painting-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-1px);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
@@ -32,7 +32,7 @@
 }
 
 .card-content {
-  padding: 1.5rem;
+  padding: 1.1rem;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -63,14 +63,14 @@
 .price {
   font-size: 1.2rem;
   font-weight: 700;
-  color: #8b4513; /* Braonkasto-crvena cena */
+  color: #8B3A45; 
 }
 
 /* Dugmad na kartici */
 .btn-add-cart {
   background: transparent;
-  border: 1px solid #8b4513;
-  color: #8b4513;
+  border: 1px solid #8B3A45;
+  color: #8B3A45;
   padding: 8px 16px;
   border-radius: 6px;
   font-size: 0.9rem;
@@ -80,8 +80,8 @@
   gap: 6px;
 }
 
-.btn-add-cart:hover:not(:disabled) {
-  background: #8b4513;
+.btn-add-cart:hover:not(:disabled) { /* :not(:disabled) znaci primeni ako nije disabled */
+  background-color: #8B3A45;
   color: white;
 }
 
@@ -125,6 +125,8 @@
   background-color: #cca32a;
   color: #2d1b18;
 }
+
+
 
 
 

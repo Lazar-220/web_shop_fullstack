@@ -37,6 +37,9 @@ const LoginModal = ({ show, onClose, onSwitch }) => {
         // navigate('/');
         onClose();
         setInfo("");
+
+        setEmail("");
+        setPassword("");
       },800);
       
 
@@ -89,6 +92,24 @@ const LoginModal = ({ show, onClose, onSwitch }) => {
       },
   ];
 
+  const handleCloseButton=()=>{
+    onClose();
+    setError("");
+    setInfo("");
+    setLoading(false);
+    setEmail("");
+    setPassword("");
+  }
+
+  const handleSwitchButton=()=>{
+    onSwitch();
+    setError("");
+    setInfo("");
+    setLoading(false);
+    setEmail("");
+    setPassword("");
+  }
+
   if (!show) {
     return null;
   }
@@ -100,7 +121,7 @@ const LoginModal = ({ show, onClose, onSwitch }) => {
         <div className="auth-header">
           <h3>Dobrodošli nazad</h3>
           <p>Prijavite se i ostvarite 10% popusta</p>
-          <button className="close-btn" onClick={onClose}>
+          <button className="close-btn" onClick={handleCloseButton}>
             <FaTimes />
           </button>
         </div>
@@ -127,7 +148,8 @@ const LoginModal = ({ show, onClose, onSwitch }) => {
           {info ? <div className="obavestenje info">{info}</div> : null}
           {error ? <div className="obavestenje error">{error}</div> : null}
 
-          <span className="forgot">Zaboravili ste lozinku?</span>
+          {/* DODAJ LOGIKU ZA ZABORAVLJENU LOZINKU */}
+          {/* <span className="forgot">Zaboravili ste lozinku?</span> */}
 
           <button
           type="submit" 
@@ -139,7 +161,7 @@ const LoginModal = ({ show, onClose, onSwitch }) => {
 
           <p className="switch">
             Nemate nalog? 
-            <span className='ms-2' onClick={onSwitch}>Registrujte se</span>
+            <span className='ms-2' onClick={handleSwitchButton}>Registrujte se</span>
           </p>
         </form>
 

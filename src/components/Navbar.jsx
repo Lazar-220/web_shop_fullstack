@@ -24,6 +24,11 @@ const Navbar = ({ onLogin,onRegister,isAuth,onLogout,cartCount }) => {          
   
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   
+
+  const navLinkHandler=()=>{
+    setIsOpen(false);
+  }
+
   return (
 
     <>
@@ -80,9 +85,9 @@ const Navbar = ({ onLogin,onRegister,isAuth,onLogout,cartCount }) => {          
             <button
               className="navbar-toggler border-0"     // className="navbar-toggler" ide u paketu sa data-bs-toggle="collapse" 
               type="button"                          // da zna da nije submit tj. da ne osvezava stranicu
-              data-bs-toggle="collapse"             //collapse znaci ovde da se odnosi na element koji je skriven do/od odredjenog trenutka
-              data-bs-target="#mainNavbar"          // data-bs-target="#mainNavbar" sluzi za povezivanje sa elementom preko njegovog id-ia jer je #->id a .->class 
-              aria-controls="mainNavbar"            // vise za seo...
+              //data-bs-toggle="collapse"             //collapse znaci ovde da se odnosi na element koji je skriven do/od odredjenog trenutka
+              //data-bs-target="#mainNavbar"          // data-bs-target="#mainNavbar" sluzi za povezivanje sa elementom preko njegovog id-ia jer je #->id a .->class 
+              //aria-controls="mainNavbar"            // vise za seo...
               aria-expanded={isOpen}                //dugme burger meni pomocu aria-expanded pamti trenutno stanje (od poslednjeg renderovanja)
               aria-label="Toggle navigation"        //stoji sablonski jer dugme - burger meni, nema tekst
               onClick={() => setIsOpen(!isOpen)}    //koristimo closure, arrow fju da bismo pomerili poziv fje setIsOpen za trenutak kada se klikne na burger meni
@@ -99,7 +104,7 @@ const Navbar = ({ onLogin,onRegister,isAuth,onLogout,cartCount }) => {          
           {/* SREDNJA KOLONA (Zauzima 8/12 prostora - SAVRŠEN CENTAR) */}
           <div className="col-8 d-flex justify-content-center">
             {/* Logo za mobilni: Pojavljuje se u centru samo kad je ekran mali */}
-            <HashLink className="navbar-brand d-lg-none m-0" smooth to='#top'> {/*  (generalno je vidljiv) d-lg-none (nije vidljiv samo na desktop racunarima na toj poziciji (centrirano)) */}
+            <HashLink className="navbar-brand d-lg-none m-0" smooth to='#top' onClick={navLinkHandler}> {/*  (generalno je vidljiv) d-lg-none (nije vidljiv samo na desktop racunarima na toj poziciji (centrirano)) */}
             <span className="dany">Dany</span>
             <span className="art">Art</span>
             </HashLink>
@@ -119,7 +124,7 @@ const Navbar = ({ onLogin,onRegister,isAuth,onLogout,cartCount }) => {          
           
           <div className="col-2 korpa-kontejner">
 
-            <Link to="/korpa/" className="cart-fixed">
+            <Link to="/korpa/" className="cart-fixed" onClick={navLinkHandler}>
               <FiShoppingBag size={24} />
               {cartCount > 0 ? (
                 <span className="cart-badge">{cartCount}</span>
@@ -129,12 +134,12 @@ const Navbar = ({ onLogin,onRegister,isAuth,onLogout,cartCount }) => {          
           </div>
 
           {/* MOBILNI COLLAPSE (Ispod svega kad se klikne burger) */}
-          <div className="collapse d-lg-none" id="mainNavbar">
+          <div className={`mobile-menu d-lg-none ${isOpen ? 'show' : ''}`} >  {/*collapse d-lg-none id="mainNavbar"*/}
             <ul className="navbar-nav text-center py-1">
-              <li className="nav-item"><NavLink className="nav-link" to="/">Početna</NavLink></li>
-              <li className="nav-item"><NavLink className="nav-link" to="/galerija/">Galerija</NavLink></li>
-              <li className="nav-item"><NavLink className="nav-link" to="/o-nama/">O nama</NavLink></li>
-              <li className="nav-item"><NavLink className="nav-link" to="/kontakt/">Kontakt</NavLink></li>    
+              <li className="nav-item"><NavLink className="nav-link" to="/" onClick={navLinkHandler}>Početna</NavLink></li>
+              <li className="nav-item"><NavLink className="nav-link" to="/galerija/" onClick={navLinkHandler}>Galerija</NavLink></li>
+              <li className="nav-item"><NavLink className="nav-link" to="/o-nama/" onClick={navLinkHandler}>O nama</NavLink></li>
+              <li className="nav-item"><NavLink className="nav-link" to="/kontakt/" onClick={navLinkHandler}>Kontakt</NavLink></li>    
             </ul>
           </div>
 

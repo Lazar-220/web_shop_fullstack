@@ -10,7 +10,9 @@
     justify-content: center;
     gap: 10px;
     margin-bottom: 2rem;
-    color: #4a4a4a;
+    /* color: #4a4a4a; */
+    color: #3e3232; /* Tamno braon */
+    font-weight: 600;
 }
 
 /* Stil za pojedinacnu stavku (Reusable komponenta) */
@@ -25,12 +27,20 @@
     transition: box-shadow 0.3s ease;
 }
 
+
 .kanta-cena {
   display: flex;
   flex-direction: column;
   gap: 6.3rem;
 
 }
+
+.kanta-cena span {
+    white-space: nowrap; /* Sprečava prelamanje cene u novi red */
+    /* display: block; */
+}
+
+
 
 .opis-slike{
   display: flex;
@@ -47,6 +57,38 @@
     height: 160px;
     object-fit: cover;
     border-radius: 8px;
+}
+
+@media (max-width:535px) {
+  .cart-item-img {
+      width: 130px;
+      height: 130px;
+      object-fit: cover;
+      border-radius: 8px;
+      padding-right: 0.5rem;
+  }
+
+  .kanta-cena {
+    display: flex;
+    flex-direction: column;
+    gap: 5.3rem;
+
+  }
+/* 
+  .kanta-cena span {
+    font-size: 0.85rem !important;
+  } */
+}
+
+@media (max-width:390px) {
+  .opis-slike{
+    opacity: 0;
+  }
+  .cart-item-img {
+      padding-right: 0rem;
+  }
+  
+  
 }
 
 /* Dugme za brisanje (kanta) */
@@ -82,6 +124,7 @@
     border: 1.5px solid #5555555d;
     border-radius: 8px;
     transition: all 0.3s;
+    /* background-color: white; */
 }
 
 @media (min-width:990px) {
@@ -97,8 +140,9 @@
 }
 
 .btn-back-gallery:hover {
-    background-color: #f0f0f0;
-    color: #000;
+    background-color: #8B3A45;
+    color: white;
+    border: 1.5px solid #55555500;
 }
 
 
@@ -151,22 +195,23 @@
 
 /* Dugme Explore Gallery */
 .btn-explore-gallery {
-    background-color: #9e5f5f; /* Crvenkasto-braon boja sa slike */
+    background-color: #8B3A45;
     color: white;
     padding: 15px 40px;
     border-radius: 8px;
     text-decoration: none;
     font-weight: 500;
     font-size: 1.1rem;
-    transition: all 0.3s ease;
     border: none;
     box-shadow: 0 4px 10px rgba(158, 95, 95, 0.3);
-}
+    /* transition: transform 0.3s ease; */
+    transition: all 0.3s ease;
+  }
 
 .btn-explore-gallery:hover {
-    background-color: #824b4b;
+    background-color: #80363f;
     color: white;
-    transform: translateY(-2px);
+    transform: scale(1.02);
     box-shadow: 0 6px 15px rgba(158, 95, 95, 0.4);
 }
 

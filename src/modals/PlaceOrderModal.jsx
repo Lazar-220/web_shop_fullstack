@@ -4,7 +4,7 @@ import { useState } from "react";
 import api from "../api/Api";
 import TextInput from "../components/TextInput";
 //DODAJ VALIDACIJU ZA FORME (DA PASSWORD MORA IMATI 6 KARAKTERA, DA JE KORISNIK MOZDA POKUSAO DA SE REGISTRUJE SA MEJLOM KOJI VEC IMA NALOG I DA MU TADA IZADJE PORUKA: KORISNIK SA OVIM MEJLOM JE VEC REGISTROVAN, AKO NE MOZETE DA SE PRIJAVITE PROVERITE DA LI STE SE VERIFIKOVALI MEJL..., DA AKO NEKO HOCE DA SE PRIJAVI SA MEJLOM KOJI NIJE VERIFIKOVAN DA GA VERIFIKUJE PRVO)
-const PlaceOrderModal = ({ show, onClose, onSwitch }) => {
+const PlaceOrderModal = ({ show, onClose, isAuth, cartItems, setCartItems }) => {
   
   // const navigate=useNavigate();
     
@@ -15,6 +15,7 @@ const PlaceOrderModal = ({ show, onClose, onSwitch }) => {
   const [adresa,setAdresa]=useState("");
   const [postanskiBroj,setPostanskiBroj]=useState("");
   const [telefon,setTelefon]=useState("");
+  
 
   const [loading,setLoading]=useState(false);
   const [error,setError]=useState("");
@@ -26,17 +27,39 @@ const PlaceOrderModal = ({ show, onClose, onSwitch }) => {
     setError("");
     setInfo("");
 
+    
+    const stavkePorudzbine=cartItems.map(item=>({
+      slika_id: item.id,
+      kolicina: 1
+    }));
+
+    const orderData={     //objekat u js-u slican kao dict u pajtonu
+      ime,   // kad ne pisemo : podrazumeva se da su key i val isti
+      prezime, // prezime: prezime
+      grad,
+      adresa,
+      postanski_broj: postanskiBroj,
+      telefon,
+      stavke: stavkePorudzbine
+    };
+
+    const endPoint= isAuth ? '/porudzbine-clan' : '/porudzbine';
+
     try {
-                                
-      await api.post('/porudzbine',{}); //u {} treba dodati podatke iz input polja i niz stavki (sa id-jevima slika)
+                          
+      await api.post(endPoint,orderData); //mi prosledjujemo js objakat (slicno kao dict u pajtonu) i axios ga pretvara u json objekat (dodaje navodnike za kljuceve i stringove)
       
       setInfo("Uspešno ste izvršili poručivanje.");
+
+      setCartItems([]);
 
       setTimeout(()=>{
         
         onClose();
         setInfo("");
-      },800);
+        // Resetovanje polja forme
+        setIme(""); setPrezime(""); setGrad(""); setAdresa(""); setPostanskiBroj(""); setTelefon("");
+      },2000);
       
 
     } catch (error) {
@@ -123,6 +146,19 @@ const PlaceOrderModal = ({ show, onClose, onSwitch }) => {
       },
   ];
 
+  const handleCloseButton=()=>{
+    onClose();
+    setError("");
+    setInfo("");
+    setLoading(false);
+    setIme("");
+    setPrezime("");
+    setGrad("");
+    setAdresa("");
+    setPostanskiBroj("");
+    setTelefon("");
+  }
+
   if (!show) {
     return null;
   }
@@ -134,7 +170,7 @@ const PlaceOrderModal = ({ show, onClose, onSwitch }) => {
         <div className="auth-header">
           <h3>Hvala Vam na ukazanom poverenju</h3>
           <p>Popunite sva polja i pritisnite dugme ispod</p>
-          <button className="close-btn" onClick={onClose}>
+          <button className="close-btn" onClick={handleCloseButton}>
             <FaTimes />
           </button>
         </div>

@@ -169,6 +169,16 @@
 
 
 
+.mobile-menu{
+  max-height: 0px;
+  opacity: 0;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
 
+.mobile-menu.show{
+  max-height: 500px;
+  opacity: 1;
+}
 
 

@@ -97,6 +97,11 @@
   border-radius: 25px;
   margin-top: 5px;
   cursor: pointer;
+  transform: background 0.3s;
+}
+
+.auth-btn:hover{
+  background: #8d3f4d;
 }
 
 .switch span {

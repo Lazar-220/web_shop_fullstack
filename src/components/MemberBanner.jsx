@@ -3,16 +3,16 @@ import { FiGift } from 'react-icons/fi'
 
 const MemberBanner = ({onRegister,isAuth}) => {
   return (
-    <div className='container-fluid'>
-      <div className="row align-items-center justify-content-between">         
+    // <div className='container-fluid'>
+      <div className="row align-items-center justify-content-between g-0">         
                 {/* Leva strana: Tekst */}
-                <div className="col-lg-8 col-md-7 mb-4 mb-md-0 text-white ps-4">
+                <div className="col-lg-8 col-md-7 mb-4 mb-md-0 text-white ps-md-4">
                   {/* Subtitle sa ikonom */}
-                  <div className="d-flex align-items-center gap-2 mb-2 text-custom-gold">
+                  <div className="d-flex flex-column flex-md-row align-items-center gap-2 mb-3 text-custom-gold">
                     <div className="icon-circle">
                        <FiGift size={20} />
                     </div>
-                    <span className="fw-semibold">Ekskluzivna pogodnost za članove</span>
+                    <span className="fw-semibold text-center text-md-start">Ekskluzivna pogodnost za članove</span>
                   </div>
                   
                   <h2 className="pridruzite-se font-serif display-5 mb-3">Pridružite se našoj umetničkoj zajednici</h2>
@@ -33,8 +33,8 @@ const MemberBanner = ({onRegister,isAuth}) => {
     
                     {isAuth ? (
                       <div className=''>
-                        <p className="text-white fw-semibold no-wrap">
-                          Hvala što ste član naše umetničke zajednice!
+                        <p className="text-white fw-semibold text-center" style={{maxWidth: '15rem'}}>
+                          Hvala Vam što ste član naše umetničke zajednice!
                         </p>
                       </div>
                     ) : (
@@ -51,7 +51,7 @@ const MemberBanner = ({onRegister,isAuth}) => {
     
               
       </div>
-    </div>
+    // </div>
   )
 }
 

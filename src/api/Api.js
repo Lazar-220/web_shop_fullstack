@@ -15,5 +15,4 @@ api.interceptors.request.use((config) => { //api.interceptors.request.use je pre
   return config;  //config je request(zahtev) kome dodajemo u zaglavlju(header-u) token ako postoji i dozvoljavamo mu da ide do backend-a
 });
 
-
 export default api;

@@ -107,6 +107,7 @@ function App() {
                                     onRegister={()=>setRegisterOpen(true)}
                                     isAuth={isAuth} 
                                     addToCart={addToCart}
+                                    removeFromCart={removeFromCart}
                                     cartItems={cartItems}
                                   />}
           />
@@ -146,6 +147,9 @@ function App() {
       <PlaceOrderModal
         show={orderOpen}
         onClose={()=>setOrderOpen(false)}
+        isAuth={isAuth}
+        cartItems={cartItems}
+        setCartItems={setCartItems}
       />
 
 

@@ -38,7 +38,15 @@ const RegisterModal = ({ show, onClose, onSwitch }) => {
       if(error.response){
         
         if(error.response.status===422){
-          setError("Molimo popunite ispravno sva polja.");
+          if(password.length<6){
+            setError("Lozinka mora imati najmanje 6 karaktera.");
+          }
+          else if(password!==password_confirmation){
+            setError("Niste ispravno potvrdili lozinku.");
+          }
+          else{
+            setError("Molimo popunite ispravno sva polja.");
+          }
         }
         else{
           setError("Došlo je do greške. Pokušajte ponovo.");
@@ -70,7 +78,7 @@ const RegisterModal = ({ show, onClose, onSwitch }) => {
       id:"prezime",
       type:"text",
       placeholder:"Prezime",
-      value: ime,
+      value: prezime,
       onChange: (e)=>setPrezime(e.target.value),
       autoComplete: "prezime",
       required: true,
@@ -112,6 +120,29 @@ const RegisterModal = ({ show, onClose, onSwitch }) => {
     },
   ];
 
+  const handleCloseButton=()=>{
+    onClose();
+    setError("");
+    setInfo("");
+    setLoading(false);
+    setIme("");
+    setPrezime("");
+    setEmail("");
+    setPassword("");
+    setPassword_confirmation("");
+  }
+
+  const handleSwitchButton=()=>{
+    onSwitch();
+    setError("");
+    setInfo("");
+    setLoading(false);
+    setIme("");
+    setPrezime("");
+    setEmail("");
+    setPassword("");
+    setPassword_confirmation("");
+  }
 
   if (!show) 
     return null;
@@ -123,7 +154,7 @@ const RegisterModal = ({ show, onClose, onSwitch }) => {
         <div className="auth-header">
           <h3>Postanite naš član</h3>
           <p>Kreirajte nalog kako biste mogli da ostvarite članski popust</p>
-          <button className="close-btn" onClick={onClose}>
+          <button className="close-btn" onClick={handleCloseButton}>
             <FaTimes />
           </button>
         </div>
@@ -187,7 +218,7 @@ const RegisterModal = ({ show, onClose, onSwitch }) => {
 
             <p className="switch full">
                 Već imate nalog?  
-                <span className='ms-2' onClick={onSwitch}>Prijavite se</span>
+                <span className='ms-2' onClick={handleSwitchButton}>Prijavite se</span>
             </p>
 
         </form>

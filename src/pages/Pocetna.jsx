@@ -27,7 +27,7 @@ import api from '../api/Api';
 
 
 
-const Pocetna = ({onRegister,isAuth,addToCart, cartItems}) => {
+const Pocetna = ({onRegister,isAuth,addToCart,removeFromCart, cartItems}) => {
 
   const features = [
     {
@@ -209,13 +209,13 @@ const Pocetna = ({onRegister,isAuth,addToCart, cartItems}) => {
       <div className="container">
         {/* Header Sekcije */}
         <div className="text-center mb-5">
-            <div className="d-flex align-items-center justify-content-center gap-2 mb-2">
-                <span className="text-custom-gold">✦</span>
-                <span className="sub-title text-uppercase">New Arrivals</span>
+            <div className="d-flex align-items-center justify-content-center gap-1 confidence-subtitle mb-3">
+              <GiDiamonds/> 
+              Novo u ponudi
             </div>
-            <h2 className="section-title display-5 mb-3">Latest Paintings</h2>
-            <p className="text-muted mx-auto" style={{maxWidth: '600px'}}>
-                Explore our most recent additions to the collection. Each painting is an original work, created with passion and attention to detail.
+            <h2 className="confidence-title font-serif mb-3">Najnovije slike</h2>
+            <p className="text-muted mx-auto" style={{maxWidth: '700px'}}>
+                Pogledajte najnovija dela u našoj kolekciji. Svaka slika je originalno umetničko delo, naslikano sa strašću i pažnjom prema svakom detalju.
             </p>
         </div>
         {/* DODAJ OPCIJU DA SE OBRISE IZ KORPE SA POCETNE */}
@@ -241,6 +241,7 @@ const Pocetna = ({onRegister,isAuth,addToCart, cartItems}) => {
                         fotografija={painting.fotografija}
                         
                         onAddToCart={(painting)=>addToCart(painting)} //moglo je i bez parametara tj. samo ()=>addToCart(painting) i onda bi poziv bio onAddToCart()
+                        removeFromCart={()=>removeFromCart(painting.id)}
                         isInCart={cartItems && cartItems.some((item) => item.id === painting.id)}   //some vraca true/false, dok find vraca element ili null?
                         //^proverimo da li je već u korpi da bi dugme bilo sivo odmah pri učitavanju
                     />
@@ -254,7 +255,7 @@ const Pocetna = ({onRegister,isAuth,addToCart, cartItems}) => {
         {/* Dugme ispod grida */}
         <div className="text-center mt-5">
             <Link to="/galerija/" className="btn-gold-filled shadow-sm">
-                View All Paintings
+                Pogledajte sve slike
             </Link>
         </div>
 
@@ -264,11 +265,11 @@ const Pocetna = ({onRegister,isAuth,addToCart, cartItems}) => {
 
     {/* member-banner */}
     <div className="member-banner py-5">
-        {/* <div className="container-fluid"> */}
+        <div className="container-fluid">
           <MemberBanner
           isAuth={isAuth}
           onRegister={onRegister}/>
-        {/* </div> */}
+        </div>
     </div>
 
     {/* SHOP WITH CONFIDENCE */}

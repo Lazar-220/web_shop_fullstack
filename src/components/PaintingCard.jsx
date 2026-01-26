@@ -2,9 +2,9 @@
 
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { BsCartPlus, BsCartCheck, BsArrowRight } from "react-icons/bs";
+import { BsCartPlus,BsCartDash, BsCartCheck, BsArrowRight } from "react-icons/bs";
 
-const PaintingCard = ({ id,galerija_id,naziv,dimenzije,tehnike,cena,dostupna,fotografija, onAddToCart, isInCart }) => { // Dodali smo isInCart prop ako želimo da proverimo da li je već dodat spolja
+const PaintingCard = ({ id,galerija_id,naziv,dimenzije,tehnike,cena,dostupna,fotografija, onAddToCart,removeFromCart, isInCart }) => { // Dodali smo isInCart prop ako želimo da proverimo da li je već dodat spolja
 
   const handleAddToCart = () => {
     
@@ -12,6 +12,10 @@ const PaintingCard = ({ id,galerija_id,naziv,dimenzije,tehnike,cena,dostupna,fot
           //isto kao da pise -> id: id,...
     });
     
+  };
+
+  const handleRemoveFromCart=()=>{
+    removeFromCart();
   };
 
   return (
@@ -33,7 +37,16 @@ const PaintingCard = ({ id,galerija_id,naziv,dimenzije,tehnike,cena,dostupna,fot
         <div className="card-footer-custom">
           <span className="price">{cena}</span>
           
-          <div className="d-flex gap-2">
+          <div className={`d-flex justify-content-center gap-2  ${isInCart ? 'w-100' : ''}`}>
+
+            {isInCart && (<button 
+              className={`me-auto btn-add-cart ${isInCart ? 'added' : ''}`} 
+              onClick={handleRemoveFromCart}
+            >
+            <BsCartDash size={18} />
+              Ukloni
+            </button>)}
+
             {/* Dugme za dodavanje */}
             <button 
               className={`btn-add-cart ${isInCart ? 'added' : ''}`} 
@@ -41,7 +54,7 @@ const PaintingCard = ({ id,galerija_id,naziv,dimenzije,tehnike,cena,dostupna,fot
               disabled={isInCart}
             >
               {isInCart ? <BsCartCheck size={18} /> : <BsCartPlus size={18} />}
-              {isInCart ? "Dodato" : "U korpu"}
+              {isInCart ? "Dodato" : "Dodaj"}
             </button>
 
             {/* Dugme za pregled korpe (Pojavljuje se samo kad je dodato) */}
@@ -51,6 +64,7 @@ const PaintingCard = ({ id,galerija_id,naziv,dimenzije,tehnike,cena,dostupna,fot
               </Link>
             )}
           </div>
+          
         </div>
       </div>
     </div>
