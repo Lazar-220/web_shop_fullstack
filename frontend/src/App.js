@@ -14,6 +14,7 @@ import O_nama from './pages/O_nama.jsx';
 import api from './api/Api.js';
 import Korpa from './pages/Korpa.jsx';
 import PlaceOrderModal from './modals/PlaceOrderModal.jsx';
+import Kontakt from './pages/Kontakt.jsx';
 
 
 function App() {
@@ -123,6 +124,7 @@ function App() {
 
           <Route path='/galerija/' element={<Galerija/>} />
           <Route path='/o-nama/' element={<O_nama/>} />
+          <Route path='/kontakt/' element={<Kontakt/>} />
         </Routes>
         <Footer />
       </div>

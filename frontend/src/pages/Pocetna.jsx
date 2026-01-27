@@ -307,7 +307,7 @@ const Pocetna = ({onRegister,isAuth,addToCart,removeFromCart, cartItems}) => {
           
           {/* Header FAQ Sekcije */}
           <div className="text-center mb-5">
-            <div className="d-flex align-items-center justify-content-center gap-1 mb-3">
+            <div className="d-flex align-items-center justify-content-center gap-1 mb-3 confidence-subtitle">
               <GiDiamonds className='text-custom-gold-dark'/> 
               <span className="text-custom-gold-dark">Imate pitanja?</span>
             </div>
