@@ -203,7 +203,7 @@ const Korpa = ({ cartItems, removeFromCart, isAuth, onRegister,onPlaceOrder }) =
                 </div>
 
                 <button 
-                className="btn btn-dark w-100 py-3 rounded-3 text-uppercase fw-bold" style={{backgroundColor: '#6c1818', border: 'none'}}
+                className="unesi-podatke w-100 py-3 rounded-3 text-uppercase fw-bold"
                 onClick={onPlaceOrder}
                 >
                     Unesi podatke

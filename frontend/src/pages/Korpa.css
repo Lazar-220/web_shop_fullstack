@@ -119,11 +119,11 @@
     font-weight: 500;
     display: inline-flex;
     align-items: center;
-    gap: 17px;
+    gap: 1.7rem;
     padding: 10px 20px;
     border: 1.5px solid #5555555d;
     border-radius: 8px;
-    transition: all 0.3s;
+    transition: all 0.3s ease;
     /* background-color: white; */
 }
 
@@ -342,3 +342,14 @@
   }
 }
 
+.unesi-podatke{
+  background-color: #6c1818;
+  color: white;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.unesi-podatke:hover{
+  background-color: #5a1414;
+  transform: scale(1.01);
+}
