@@ -22,3 +22,5 @@ RUN a2enmod rewrite
 
 RUN sed -ri -e 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available/000-default.conf \
     && sed -ri -e 's!/var/www/html!/var/www/html/public!g' /etc/apache2/apache2.conf
+
+CMD bash -c "php artisan migrate --force && php artisan db:seed --force && apache2-foreground"
