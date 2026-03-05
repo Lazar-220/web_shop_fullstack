@@ -31,14 +31,17 @@ class DatabaseSeeder extends Seeder
             DB::statement('SET session_replication_role = replica;');
         }
         //^ova linija je da se iskljuci provera FK
-        DB::table('slika_tehnika')->truncate();
-        User::truncate();
-        Popust::truncate();
-        Galerija::truncate();
-        Porudzbina::truncate();
-        Stavka::truncate();
-        Slika::truncate();
-        Tehnika::truncate();
+
+        if (DB::getDriverName()==='mysql'){
+            DB::table('slika_tehnika')->truncate();
+            User::truncate();
+            Popust::truncate();
+            Galerija::truncate();
+            Porudzbina::truncate();
+            Stavka::truncate();
+            Slika::truncate();
+            Tehnika::truncate();
+        }
 
         if (DB::getDriverName()==='mysql'){
             DB::statement('SET FOREIGN_KEY_CHECKS=1;'); 
