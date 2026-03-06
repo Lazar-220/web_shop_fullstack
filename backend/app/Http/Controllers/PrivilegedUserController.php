@@ -47,7 +47,7 @@ class PrivilegedUserController extends Controller
         }
 
         $porudbine = DB::table('porudzbine')
-            ->selectRaw("$format as period, COUNT(*) as brojP")  //sirov sql
+            ->selectRaw("$format as period, COUNT(*) as \"brojP\"")//->selectRaw("$format as period, COUNT(*) as brojP")  //sirov sql
             ->groupBy('period')
             ->orderBy('period')
             ->pluck('brojP', 'period');
