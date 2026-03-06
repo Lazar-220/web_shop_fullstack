@@ -24,31 +24,16 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         //ovo sluzi da obriseo stare podatke prilikom kreiranja novih
-        if (DB::getDriverName()==='mysql'){
-            DB::statement('SET FOREIGN_KEY_CHECKS=0;'); 
-        }
-        else if(DB::getDriverName()==='pgsql'){
-            DB::statement('SET session_replication_role = replica;');
-        }
-        //^ova linija je da se iskljuci provera FK
-
-        if (DB::getDriverName()==='mysql'){
-            DB::table('slika_tehnika')->truncate();
-            User::truncate();
-            Popust::truncate();
-            Galerija::truncate();
-            Porudzbina::truncate();
-            Stavka::truncate();
-            Slika::truncate();
-            Tehnika::truncate();
-        }
-
-        if (DB::getDriverName()==='mysql'){
-            DB::statement('SET FOREIGN_KEY_CHECKS=1;'); 
-        }
-        else if(DB::getDriverName()==='pgsql'){
-            DB::statement('SET session_replication_role = DEFAULT;');
-        }
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;'); //ova linija je da se iskljuci provera FK
+        DB::table('slika_tehnika')->truncate();
+        User::truncate();
+        Popust::truncate();
+        Galerija::truncate();
+        Porudzbina::truncate();
+        Stavka::truncate();
+        Slika::truncate();
+        Tehnika::truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         User::factory(10)->create();
 
