@@ -92,7 +92,9 @@ jobs:
     needs: [docker]
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
-    environment: production 
+    environment: 
+      name: production 
+      url: https://web-shop-fullstack.onrender.com
     steps:
       - name: Deploy backend to Render
         run: curl "${{ secrets.RENDER_BACKEND_DEPLOY_HOOK }}"
