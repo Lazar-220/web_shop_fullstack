@@ -611,7 +611,7 @@ const AnalizaPoslovanja = () => {
            disabled={loadingSlike}
             type="submit"
             >
-            {loadingSlike ? "Učitavanje..." : "Pošaljite poruku"}
+            {loadingSlike ? "Učitavanje..." : "Dodajte sliku"}
             </button>  {/* type="submit" i form da ima onsubmit={handler} */}
         </div>
         </form>
