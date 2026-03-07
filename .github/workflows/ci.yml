@@ -92,7 +92,7 @@ jobs:
     needs: [docker]
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
-
+    environment: production 
     steps:
       - name: Deploy backend to Render
         run: curl "${{ secrets.RENDER_BACKEND_DEPLOY_HOOK }}"
