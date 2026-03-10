@@ -87,7 +87,9 @@ const Galerija = ({ onAddToCart, onRemoveFromCart, cartItems,isPrivilegedUser })
         const slike = response.data.slike.map((slika) => ({
           id: slika.id,
           galerija_id: slika.galerija_id,
-          fotografija: slika.putanja_fotografije.startsWith('http') ? slika.putanja_fotografije : `http://localhost:8000/storage/${slika.putanja_fotografije}`,
+          fotografija: slika.putanja_fotografije.startsWith('http')
+           ? slika.putanja_fotografije 
+           : `${process.env.REACT_APP_API_URL?.replace('/api','')}/storage/${slika.putanja_fotografije}`, // Laravel storage URLcena: `${slika.cena} RSD`,
           cena: `${slika.cena} RSD`,
           naziv: slika.naziv,
           dimenzije: `${slika.sirina_cm} x ${slika.visina_cm} cm`,
