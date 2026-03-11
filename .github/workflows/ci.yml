@@ -83,7 +83,7 @@ jobs:
       - name: Build and push frontend
         uses: docker/build-push-action@v5
         with:
-          context: ./frontend
+          context: .
           file: ./docker/frontend/Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/webshop-frontend:latest
@@ -92,12 +92,16 @@ jobs:
     needs: [docker]
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
-    environment: 
-      name: production 
-      url: https://web-shop-fullstack.onrender.com
     steps:
       - name: Deploy backend to Render
         run: curl "${{ secrets.RENDER_BACKEND_DEPLOY_HOOK }}"
 
       - name: Deploy frontend to Render
         run: curl "${{ secrets.RENDER_FRONTEND_DEPLOY_HOOK }}"
+
+
+
+
+
+
+
